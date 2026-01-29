@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct contact{ 
+long int number;
+struct contact *next;
+};
+int main(){
+    //insert at benging
+    struct contact *head = NULL,*temp; //cerating head
+    struct contact *stn1 = (struct contact*) malloc(sizeof(struct contact));
+    struct contact *stn2 = (struct contact*) malloc(sizeof(struct contact));
+    struct contact *stn3 = (struct contact*) malloc(sizeof(struct contact));
+  
+   //storing numbers 
+    stn1->number = 94555845815;
+    stn2->number = 9600856797;
+    stn3->number = 9944054068;
+  
+    
+    stn1->next = NULL;
+    stn2->next = NULL;
+    stn3->next = NULL;
+   
+    
+    //INSERTING 
+   head = stn1;
+   temp=head;
+   while(temp->next!=NULL)
+   temp=temp->next;
+   temp->next=stn2;
+   
+
+   
+   temp = head;
+   while(temp->next !=NULL)
+   temp = temp->next;
+   temp->next = stn3;
+   
+
+   
+    printf("contact:\n");
+    temp = head;
+    while(temp !=NULL){
+        printf("%ld --->", temp->number);
+        temp = temp->next;
+    }
+    printf("Finish");
+    
+    return 0;
+}
