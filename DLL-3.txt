@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int pid;
+    struct Node *prev;
+    struct Node *next;
+};
+
+int main() {
+    struct Node *head = NULL, *newNode = NULL, *last = NULL;
+    int n, i;
+
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++) {
+        newNode = (struct Node *)malloc(sizeof(struct Node));
+
+        printf("Enter process ID: ");
+        scanf("%d", &newNode->pid);
+
+        if (head == NULL) {
+            head = newNode;
+            newNode->next = head;
+            newNode->prev = head;
+        } else {
+            last = head->prev;
+
+            last->next = newNode;
+            newNode->prev = last;
+
+            newNode->next = head;
+            head->prev = newNode;
+        }
+    }
+
+    // Display list
+    printf("\nRound Robin Process List:\n");
+    newNode = head;
+    do {
+        printf("%d <-> ", newNode->pid);
+        newNode = newNode->next;
+    } while (newNode != head);
+
+    printf("(back to %d)", head->pid);
+
+    return 0;
+}
