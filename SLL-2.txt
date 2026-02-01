@@ -1,0 +1,51 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int id;
+    struct Node *next;
+};
+
+int main() {
+    struct Node *head = NULL, *temp = NULL, *newNode = NULL;
+    int value, i, n;
+
+    printf("Enter number of insertions: ");
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++) {
+        newNode = (struct Node *)malloc(sizeof(struct Node));
+
+        printf("Enter passenger ID: ");
+        scanf("%d", &value);
+
+        newNode->id = value;
+
+        if (head == NULL) {
+            head = newNode;
+            newNode->next = head;   // circular
+        } else {
+            temp = head;
+            // move to last node
+            while (temp->next != head) {
+                temp = temp->next;
+            }
+
+            newNode->next = head;   // point to old head
+            temp->next = newNode;   // last points to new node
+            head = newNode;         // update head
+        }
+    }
+
+    // Display circular list
+    printf("\nPassenger List:\n");
+    temp = head;
+    do {
+        printf("%d -> ", temp->id);
+        temp = temp->next;
+    } while (temp != head);
+
+    printf("(back to %d)", head->id);
+
+    return 0;
+}
