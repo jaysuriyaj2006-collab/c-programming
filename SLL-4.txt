@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Node {
+    int playerID;
+    struct Node *next;
+};
+
+int main() {
+    struct Node *head = NULL, *temp = NULL, *newNode = NULL;
+    struct Node *curr, *prev;
+    int n, i, value, del;
+
+    // Create circular list
+    printf("Enter number of players: ");
+    scanf("%d", &n);
+
+    for (i = 0; i < n; i++) {
+        newNode = (struct Node *)malloc(sizeof(struct Node));
+        printf("Enter player ID: ");
+        scanf("%d", &value);
+
+        newNode->playerID = value;
+
+        if (head == NULL) {
+            head = newNode;
+            newNode->next = head;
+        } else {
+            temp = head;
+            while (temp->next != head)
+                temp = temp->next;
+
+            temp->next = newNode;
+            newNode->next = head;
+        }
+    }
+
+    // Delete a player
+    printf("Enter player ID to delete: ");
+    scanf("%d", &del);
+
+    curr = head;
+    prev = NULL;
+
+    // Case: deleting head
+    if (head->playerID == del) {
+        temp = head;
+        while (temp->next != head)
+            temp = temp->next;
+
+        // only one node
+        if (head->next == head) {
+            free(head);
+            head = NULL;
+        } else {
+            temp->next = head->next;
+            head = head->next;
+            free(curr);
+        }
+    } 
+    // Case: deleting non-head node
+    else {
+        while (curr->next != head && curr->playerID != del) {
+            prev = curr;
+            curr = curr->next;
+        }
+
+        if (curr->playerID == del) {
+            prev->next = curr->next;
+            free(curr);
+        } else {
+            printf("Player not found!\n");
+        }
+    }
+
+    // Display list
+    if (head != NULL) {
+        printf("\nPlayers after deletion:\n");
+        temp = head;
+        do {
+            printf("%d -> ", temp->playerID);
+            temp = temp->next;
+        } while (temp != head);
+        printf("(back to %d)", head->playerID);
+    }
+
+    return 0;
+}
